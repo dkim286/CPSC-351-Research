@@ -38,7 +38,7 @@ the practice of executing processes with the least amount of privilege
 required to accomplish tasks. This strict partitioning ensures that
 even if a process is malicious, its ability to do damage on the system
 at large is limited. Sandboxing is a part of the larger defense-in-depth
-philosophy of operating tsystem protection concept. 
+philosophy of operating system protection concept. 
 \end{abstract}
 
 \section{Sandboxing basics}
@@ -233,6 +233,28 @@ Packet Filters} (BPFs) passed to it \cite{key-12}. It is enabled
 by the kernel config flag \lstinline[basicstyle={\ttfamily}]!CONFIG_SECCOMP=y!
 at compile time.
 
+\subsubsection{\lstinline[basicstyle={\ttfamily}]!seccomp! and Berkeley Packet
+Filters}
+
+BPF is a packet filtering system that exists within the kernel, and
+is accessed with \lstinline[basicstyle={\ttfamily}]!<linux/filter.h>!.
+It has its own assembly-like syntax and explanations thereof are outside
+the scope of this paper: An entirely new paper would need to be written
+to delve into that subject. 
+
+The main takeaway of BPF with regards to \lstinline[basicstyle={\ttfamily}]!seccomp!
+is that:
+\begin{enumerate}
+\item BPF filter can be defined and enclosed inside a structure within the
+source code
+\item The filter is often written statically (hand-write what system calls
+the process would need)
+\item Any system calls outside the filter would result in the process being
+terminated.
+\end{enumerate}
+
+\subsubsection{\lstinline[basicstyle={\ttfamily}]!seccomp! modes and their usage}
+
 \lstinline[basicstyle={\ttfamily}]!seccomp! has two main modes:
 \begin{enumerate}
 \item \lstinline[basicstyle={\ttfamily}]!SECCOMP_SET_MODE_STRICT! -- The
@@ -241,8 +263,10 @@ of \lstinline[basicstyle={\ttfamily}]!read()!, \lstinline[basicstyle={\ttfamily}
 \lstinline[basicstyle={\ttfamily}]!exit()!, and \lstinline[basicstyle={\ttfamily}]!sigreturn()!
 only.
 \item \lstinline[basicstyle={\ttfamily}]!SECCOMP_SET_MODE_FILTER! -- The
-allowed list of system calls are passed by a pointer to a BFP filter. 
+allowed list of system calls are passed by a pointer to a BPF filter. 
 \end{enumerate}
+All the \lstinline[basicstyle={\ttfamily}]!seccomp! related interfaces
+are exposed as \lstinline[basicstyle={\ttfamily}]!<linux/seccomp.h>!.
 Any process may ``elevate'' itself to one of these more secure modes
 by invoking the \lstinline[basicstyle={\ttfamily}]!prctl()! function
 during execution \cite{key-13}:
@@ -252,14 +276,19 @@ for strict mode
 \item \lstinline[basicstyle={\ttfamily},breaklines=true]!prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, filter);!
 for filter mode 
 \end{itemize}
-Enforcement of \lstinline[basicstyle={\ttfamily}]!seccomp! is simple:
-Any invocations of system calls outside the process's allowed list
-results in the process being killed by the operating system. This
-way, no matter how malicious the program is, its ability to do damage
-is severely limited by the fact that it simply cannot issue the potentially
-more damaging system calls. 
+Followed by ``shutting the door'' by disabling any future \lstinline[basicstyle={\ttfamily}]!prctl()!
+calls:
+\begin{itemize}
+\item \lstinline[basicstyle={\ttfamily}]!prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);!
+\end{itemize}
+Enforcement of \lstinline[basicstyle={\ttfamily}]!seccomp! on the
+kernel end is simple: Any invocations of system calls outside the
+process's allowed list results in the process being killed outright.
+This way, no matter how malicious the program is, its ability to do
+damage is severely limited by the fact that it simply cannot issue
+the potentially more damaging system calls. 
 
-\section{Conclusion}
+\section{Conclusions}
 
 More than ever, the need to protect computer systems from malicious
 code is ever present. The ability to fragment physical machines into
