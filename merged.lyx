@@ -1,0 +1,2073 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass extarticle
+\begin_preamble
+\usepackage[anythingbreaks]{breakurl}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "helvet" "default"
+\font_typewriter "courier" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 0.65in
+\topmargin 1in
+\rightmargin 0.65in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 2
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Code Signing and Sandboxing 
+\begin_inset Newline newline
+\end_inset
+
+in Operating Systems
+\end_layout
+
+\begin_layout Author
+Chris Nutter
+\begin_inset Newline newline
+\end_inset
+
+Austin Kim
+\end_layout
+
+\begin_layout Abstract
+Code signing allows consumers to better trust developers by allowing developers
+ to ensure their product is protected from unwanted tampering by a third-party.
+ Through methods including TLS encryption and Xcode implementation, code
+ signing protects end-users from unwanted criminal and malicious intent
+ from outside parties.
+\end_layout
+
+\begin_layout Abstract
+Sandboxing is one of many critical components of operating systems protection.
+ It allows for the partitioning of system resources and the practice of
+ executing processes with the least amount of privilege required to accomplish
+ tasks.
+ This strict partitioning ensures that even if a process is malicious, its
+ ability to do damage on the system at large is limited.
+ Sandboxing is a part of the larger defense-in-depth philosophy of operating
+ system protection concept.
+ 
+\end_layout
+
+\begin_layout Section
+Code Signing
+\end_layout
+
+\begin_layout Subsection
+Code Signing Introduction 
+\end_layout
+
+\begin_layout Standard
+Security and protection are very important to consumers as it allows people
+ to feel safer when using their computer.
+ Consumers can ensure their applications are safe typically when developers
+ undergo the process of code signing.
+ Code signing allows developers to digitally sign their applications as
+ to ensure that the code written is valid and not harmful.
+ This process is very important as it is the base form of protection against
+ unwanted tampering of code.
+ Certification authorities (also known as CAs) sign each person’s program
+ with a public key linked with their identity to create their certificate.
+ The process of obtaining a certificate is not complex but is very integral
+ for the developer’s software to be determined as safe for the public.
+ The certification authorities help combat against malicious developers
+ which are becoming more of a threat.
+\end_layout
+
+\begin_layout Subsection
+Authentication and Integrity 
+\end_layout
+
+\begin_layout Standard
+The two keywords to proper code signing, Authentication allows the consumer
+ to verify the author of the application and Integrity which allows the
+ verification that the application’s code has not been modified since signed.
+ Authentication not only lets the user know where the application is from
+ and who developed it, but rather the knowledge that the application is
+ reputable enough to not question the validity.
+ Integrity ensures all participants are willing to understand that their
+ application is proper, and any malicious code is directed to the signed
+ applicants.
+\end_layout
+
+\begin_layout Subsection
+Code Signing Process for Application 
+\end_layout
+
+\begin_layout Standard
+Receiving a certificate for an application is straightforward but requires
+ payment and information from the user.
+ Services including DigiCert allow for the certificate to be signed towards
+ the application.
+ Signing an application ensures the end-user the program in question is
+ safe to use.
+ 
+\end_layout
+
+\begin_layout Subsection
+SSL Encryption 
+\end_layout
+
+\begin_layout Standard
+SSL (Secure Sockets Layer) encryption allows companies to receive authorization
+ that their website is safe for the public and contain no malicious content.
+ Creating an authorized environment involves a similar process as one obtains
+ a certificate from CAs.
+ SSL allows the encryption of important data from the end-user to not be
+ tampered with during the delivery.
+\end_layout
+
+\begin_layout Subsection
+TLS Encryption 
+\end_layout
+
+\begin_layout Standard
+TLS (Transport Layer Security) encryption is the overall security protocol
+ used by websites to protect against unwanted tampering of website data.
+ TLS is now widely used as the proper encryption for website and requires
+ a valid certificate from CAs.
+ TLS evolved from SSL which improved on security and is less vulnerable.
+ 
+\end_layout
+
+\begin_layout Subsection
+Code Signing Process for Domain 
+\end_layout
+
+\begin_layout Standard
+The retrieval process for a certificate is miniscule however the underlying
+ steps are 100% unique to each party and require unique info from the first
+ party.
+\end_layout
+
+\begin_layout Subsubsection
+Generating Certificate Signing Request (CSR) 
+\end_layout
+
+\begin_layout Standard
+Using a proper operating system such as most Linux-distributions: 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+openssl req -new -key domain.com.key -out /path/to/www_server_com.csr
+\end_layout
+
+\end_inset
+
+ will generate the requires certificate signing request (CSR) file needed
+ to send to a proper CA.
+ 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+domain.com
+\end_layout
+
+\end_inset
+
+ needs to be altered to where the user’s website address is located.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Following will prompt several instructions to input: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Common Name: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+domain.com
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Organization Name: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+Example Inc.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Organization Unit: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+Marketing
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+City/locality: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+Silicon Valley
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+State/province: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+California
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Country/Region: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+US
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+When instructed, do not input challenge password.
+ Each instruction should be modified to the developer’s discretion.
+\end_layout
+
+\begin_layout Subsubsection
+Obtaining certificate with CSR 
+\end_layout
+
+\begin_layout Standard
+The CSR generated allows the user to obtain a certificate from a trusted
+ CA.
+ There are many examples of CAs across the internet including but not limited
+ to, DigiCert, Let’s Encrypt, Google Trusted Services, etc.
+ Options including Let’s Encrypt are nonprofit solutions that do not require
+ payment and are trusted the same as other CAs.
+ Understanding where the certificate is being retrieved from is important.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Usage of certificate 
+\end_layout
+
+\begin_layout Standard
+The certificate obtained from the authorized CA allows the securing of a
+ website and securing of applications written from the developer.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Apple’s Implementation 
+\end_layout
+
+\begin_layout Standard
+The modern multi-billion-dollar corporation Apple has implemented a form
+ of code signing for use on Apple hardware.
+ Code signing is required to submit and upload their application to the
+ App Store which requires their Apple Developer ID.
+ This process is important in securing the App Store from unwanted malicious
+ applications but also disallows independent developers from publishing
+ their application without requiring monetary compensation.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Sandboxing
+\end_layout
+
+\begin_layout Subsection
+Sandboxing basics
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Sandboxing
+\emph default
+ is the practice of placing immutable restrictions on a process's access
+ to resources 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-1"
+literal "false"
+
+\end_inset
+
+, such as system calls, privileges, storage space, and many others.
+ This creates a set of rigid access rules that cannot be disobeyed and creates
+ a secure environment upon which processes may be executed.
+\end_layout
+
+\begin_layout Standard
+To accomplish sandboxing, the access matrix
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+An abstract model composed of domains and system objects and what kind of
+ access each domain has on each object.
+\end_layout
+
+\end_inset
+
+ is partitioned into 
+\begin_inset Quotes eld
+\end_inset
+
+horizontal
+\begin_inset Quotes erd
+\end_inset
+
+ slices (by domain) and then conferred to the appropriate processes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-3"
+literal "false"
+
+\end_inset
+
+, often as early as before the process's 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+main()
+\end_layout
+
+\end_inset
+
+ function.
+ This ensures that the restrictions placed upon it cannot be changed at
+ a later time.
+\end_layout
+
+\begin_layout Standard
+It is also within the realm of possibility to sandbox processes and limit
+ their access to system calls to a small set.
+ For example, a process that only has read privileges but is not allowed
+ to invoke the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+write()
+\end_layout
+
+\end_inset
+
+ call cannot modify any of the disk contents allocated to it, effectively
+ isolating it from communicating with other processes.
+\end_layout
+
+\begin_layout Subsection
+Why bother?
+\end_layout
+
+\begin_layout Standard
+Sandboxing is an important component in an operating system's protection
+ scheme, as it allows for 
+\emph on
+per-process
+\emph default
+ control over what they can and cannot access.
+ 
+\end_layout
+
+\begin_layout Standard
+Each time a new process is forked from its parent, it inherits the same
+ permissions that the parent held 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-2"
+literal "false"
+
+\end_inset
+
+.
+ The dangers of a rogue process inheriting its parent's permissions is as
+ blatant as it is debilitating.
+ Sandboxing allows the operating system to take charge and section off process's
+ access based on their needs such that even if a malicious piece of code
+ is executed, the damage done to the system is either minimal or nonexistent.
+ 
+\end_layout
+
+\begin_layout Subsection
+Sandboxing examples
+\end_layout
+
+\begin_layout Standard
+At the operating systems level, sandboxing has been a feature since many
+ decades prior.
+ In the beginning, there was the 
+\emph on
+namespace
+\emph default
+ feature in 
+\emph on
+Plan 9 from Bell Labs
+\emph default
+.
+ In Unix, there was 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ for isolating processes into a confined environment and still exists to
+ this day.
+ In modern day Linux, 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ became the de-facto tool for limiting resource access for processes.
+ Many others, from full-scale virtual machines for sandboxing at the OS-level,
+ to containers like 
+\emph on
+Docker
+\emph default
+ and 
+\emph on
+systemd-nspawn
+\emph default
+, sandboxing remains a staple of process compartmentalization and a general
+ protection feature.
+\end_layout
+
+\begin_layout Standard
+There are numerous examples of sandboxing – too many to list them all.
+ In this section, we will delve into some prominent sandboxing examples
+ in Linux: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+chroot
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ is a lightweight sandboxing solution available to Linux, whose original
+ Unix version was the predecessor for the much more capable 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+jail
+\end_layout
+
+\end_inset
+
+ in FreeBSD.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ uses Linux namespaces to accomplish sandboxing.
+ Linux namespaces, derived from 
+\emph on
+Plan 9 From Bell Labs
+\emph default
+'s namespaces 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-2"
+literal "false"
+
+\end_inset
+
+, are a kernel feature where every global resource within the file system
+ follows a unified namespace scheme, but those names point to completely
+ different locations per process 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-24"
+literal "false"
+
+\end_inset
+
+.
+ As such, 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+'s sandboxing is largely limited to file access and is unable to compartmentaliz
+e the process away from things like network sockets.
+\end_layout
+
+\begin_layout Standard
+To see how 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ acts as a namespace-based sandbox, it's worthwhile to take a look at the
+ generalized steps for setting up an environment for one 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-25"
+literal "false"
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Enumerate
+Create a top level directory to act as the root.
+\end_layout
+
+\begin_layout Enumerate
+Copy over or symlink the essential directories necessary to run a bare minimum
+ environment (path to 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+sh
+\end_layout
+
+\end_inset
+
+, among others).
+ This step is often automated by scripts.
+\end_layout
+
+\begin_layout Enumerate
+Create symbolic links to any additional system resources that the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ environment should have read/write access to, such as directories or files.
+\end_layout
+
+\begin_layout Enumerate
+Run 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot DIR CMD
+\end_layout
+
+\end_inset
+
+ to run a command under this new environment.
+\end_layout
+
+\begin_layout Standard
+Steps 2 and 3 outline the gist of how 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ works as a sandbox.
+ It's trivial to select which shell the environment should run with, which
+ outside files it should be allowed to see, and which files it can write
+ to.
+ Any write operations done inside the environment is confined to the environment
+ unless a link exists to an outside directory that the process can write
+ to.
+ It is, in a way, a very lightweight virtual machine with very little overhead.
+\end_layout
+
+\begin_layout Standard
+This is not to say that 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ is perfect at its job.
+ If anything, it's one of the weakest sandboxing tools available, albeit
+ an easy one to use.
+ There are many documented and proven ways in which any user can escape
+ the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+chroot
+\end_layout
+
+\end_inset
+
+ environment and gain direct access to all system resources 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-10"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+cgroups
+\end_layout
+
+\begin_layout Standard
+Control groups, abbreviated 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+, are groups of processes that are bundled together into hierarchies and
+ their resource usage monitored.
+ Following the 
+\begin_inset Quotes eld
+\end_inset
+
+everything is a file
+\begin_inset Quotes erd
+\end_inset
+
+ philosophy of Unix and its derivatives, its interfaces are exposed as a
+ set of files in a pseudo-filesystem called 
+\emph on
+cgroupfs
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-11"
+literal "false"
+
+\end_inset
+
+.
+ It is the underlying kernel feature upon which big-name applications like
+ 
+\emph on
+Docker
+\emph default
+ are built.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ consists of two main pieces:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+cgroup
+\emph default
+ bundles – a collection of processes with limits imposed upon them with
+ regards to resource usage.
+\end_layout
+
+\begin_layout Itemize
+a 
+\emph on
+subsystem
+\emph default
+ (also known as 
+\emph on
+resource controllers
+\emph default
+ or 
+\emph on
+controllers
+\emph default
+) – a kernel component that modifies the behavior of the processes in a
+ cgroup.
+ 
+\end_layout
+
+\begin_layout Standard
+The controller and the cgroup bundles are organized into a 
+\emph on
+hierarchy
+\emph default
+ that constantly changes the underlying cgroupfs subdirectories.
+ It's under these subdirectories that the access control is defined: whether
+ by adding processes to it by writing the pid to 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups.procs
+\end_layout
+
+\end_inset
+
+, or defining the process's behavior by assigning it to a specific subdirectory.
+\end_layout
+
+\begin_layout Standard
+There are two different versions of 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Cgroups v1 – Released in 2008.
+ Commonly mounted under 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+/sys/fs/cgroup
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Cgroups v2 – Attempts to unify the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ standard and make the interface more consistent.
+ Commonly mounted under 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+/sys/fs/cgroup/unified
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Both versions of 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ may be active at the same time, as v2 supports only a portion of controllers
+ found in v1.
+ The only caveat is that the appropriate controllers be used for different
+ versions of 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+.
+ For instance, using v1's controllers for v2's subdirectories would not
+ be allowed.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Creating and deleting cgroups
+\end_layout
+
+\begin_layout Standard
+Using 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ is as easy as simply writing to a file.
+ For the sake of example, let's assume that 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ v1 is being used, and a process needs to be added under the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cpu
+\end_layout
+
+\end_inset
+
+ controller subdirectory:
+\end_layout
+
+\begin_layout Enumerate
+Create a directory for the new cgroup: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},breaklines=true"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+/sys/fs/cgroup/cpu/mygroup
+\end_layout
+
+\end_inset
+
+.
+ This creates an empty cgroup named 'mygroup.'
+\end_layout
+
+\begin_layout Enumerate
+Write the pid of the process to the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups.procs
+\end_layout
+
+\end_inset
+
+ file: 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},breaklines=true"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+/sys/fs/cgroup/cpu/mygroup/cgroups.procs
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+The process of writing pid to 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups.procs
+\end_layout
+
+\end_inset
+
+ automatically removes that process from all other cgroup subdirectories,
+ and assigns all threads belonging to that process to the cgroup immediately.
+\end_layout
+
+\begin_layout Standard
+Removing a cgroup is equally simple: Make sure that no active processes
+ belong under the cgroup, and simply remove the directory 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-11"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Controller restrictions
+\end_layout
+
+\begin_layout Standard
+So, how exactly does 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cgroups
+\end_layout
+
+\end_inset
+
+ compartmentalize system resource usage? 
+\end_layout
+
+\begin_layout Standard
+There are several predefined controller groups that are allowed certain
+ resources and priorities based on the directory structure.
+ In the above example, one of them (
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cpu
+\end_layout
+
+\end_inset
+
+) was used to showcase how processes are assigned to individual controllers.
+ Any processes belonging to a controller group must abide by the rules set
+ for that controller group, and any descendant groups may not override them
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-11"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Listed below are some examples of v1 controllers:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+cpu
+\end_layout
+
+\end_inset
+
+ – This controller group is guaranteed to be assigned at least some CPU
+ cycles even when the system is busy.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+devices
+\end_layout
+
+\end_inset
+
+ – This controller group allows its processes to read and write to devices,
+ such as disks.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+freezer
+\end_layout
+
+\end_inset
+
+ – All processes and their children in this controller group are allowed
+ to be frozen at-will depending on the need of the system.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+pids
+\end_layout
+
+\end_inset
+
+ – Any processes belonging to this controller group are limited in how many
+ child processes they may spawn.
+\end_layout
+
+\begin_layout Subsubsection
+seccomp
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Secure Computing state
+\emph default
+, or 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+, is a kernel mode for processes that either limits said process to a small
+ subset of system calls, or limits them based on 
+\emph on
+Berkeley Packet Filters
+\emph default
+ (BPFs) passed to it 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-12"
+literal "false"
+
+\end_inset
+
+.
+ It is enabled by the kernel config flag 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+CONFIG_SECCOMP=y
+\end_layout
+
+\end_inset
+
+ at compile time.
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ and Berkeley Packet Filters
+\end_layout
+
+\begin_layout Standard
+BPF is a packet filtering system that exists within the kernel, and is accessed
+ with 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+<linux/filter.h>
+\end_layout
+
+\end_inset
+
+.
+ It has its own assembly-like syntax and explanations thereof are outside
+ the scope of this paper: An entirely new paper would need to be written
+ to delve into that subject.
+ 
+\end_layout
+
+\begin_layout Standard
+The main takeaway of BPF with regards to 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ is that:
+\end_layout
+
+\begin_layout Enumerate
+BPF filter can be defined and enclosed inside a structure within the source
+ code
+\end_layout
+
+\begin_layout Enumerate
+The filter is often written statically (hand-write what system calls the
+ process would need)
+\end_layout
+
+\begin_layout Enumerate
+Any system calls outside the filter would result in the process being terminated.
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ modes and their usage
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ has two main modes:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+SECCOMP_SET_MODE_STRICT
+\end_layout
+
+\end_inset
+
+ – The calling thread only has access to a subset of system calls consisting
+ of 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+read()
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+write()
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+exit()
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+sigreturn()
+\end_layout
+
+\end_inset
+
+ only.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+SECCOMP_SET_MODE_FILTER
+\end_layout
+
+\end_inset
+
+ – The allowed list of system calls are passed by a pointer to a BPF filter.
+ 
+\end_layout
+
+\begin_layout Standard
+All the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ related interfaces are exposed as 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+<linux/seccomp.h>
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl()
+\end_layout
+
+\end_inset
+
+ under 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+<sys/prctl.h>
+\end_layout
+
+\end_inset
+
+.
+ Any process may 
+\begin_inset Quotes eld
+\end_inset
+
+elevate
+\begin_inset Quotes erd
+\end_inset
+
+ itself to one of these more secure modes by invoking the 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl()
+\end_layout
+
+\end_inset
+
+ function during execution 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-13"
+literal "false"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},breaklines=true"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
+\end_layout
+
+\end_inset
+
+ for strict mode
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},breaklines=true"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, filter);
+\end_layout
+
+\end_inset
+
+ for filter mode 
+\end_layout
+
+\begin_layout Standard
+Followed by 
+\begin_inset Quotes eld
+\end_inset
+
+shutting the door
+\begin_inset Quotes erd
+\end_inset
+
+ by disabling any future 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl()
+\end_layout
+
+\end_inset
+
+ calls:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Enforcement of 
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline true
+status open
+
+\begin_layout Plain Layout
+
+seccomp
+\end_layout
+
+\end_inset
+
+ on the kernel end is simple: Any invocations of system calls outside the
+ process's allowed list results in the process being killed outright.
+ This way, no matter how malicious the program is, its ability to do damage
+ is severely limited by the fact that it simply cannot issue the potentially
+ more damaging system calls.
+ 
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+With code signing, Protection from outsiders is important for the stability
+ of the digital world.
+ While code signing does not 100% guarantee protection, it is a good step
+ to dismantle unwanted tampering of websites or products as well as understandin
+g the product the end-user decides to endure.
+\end_layout
+
+\begin_layout Standard
+More than ever, the need to protect computer systems from malicious code
+ is ever present.
+ With the help of sandboxing, the ability to fragment physical machines
+ into logical partitions that cannot easily broach the divide is indispensable
+ in a world driven by sensitive data stored in centralized servers.
+ To this end, sandboxing serves a critical purpose.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Silberschatz, Abraham, et al.
+ 
+\emph on
+Operating System Concepts
+\emph default
+.
+ 10th ed.
+ Laurie Rosatone, 2018.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-3"
+
+\end_inset
+
+Tanerbaum, Andrew S., and Albert S.
+ Woodhull.
+ 
+\emph on
+Operating Systems Design and Implementation
+\emph default
+.
+ 3rd ed., Prentice Hall, 2006.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
+Ballesteros, Francisco J.
+ 
+\emph on
+Introduction to Operating Systems Abstractions Using Plan 9 from Bell Labs
+\emph default
+.
+ Draft 9/28/2007.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-8"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+namespaces(7).
+\begin_inset Quotes erd
+\end_inset
+
+ The Linux man-pages project, 11 Apr.
+ 2020, 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://man7.org/linux/man-pages/man7/namespaces.7.html"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-9"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+chroot: Run a command with a different root directory.
+\begin_inset Quotes erd
+\end_inset
+
+ GNU Operating System.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.gnu.org/software/coreutils/manual/ html_node/chroot-invocation.html"
+target "https://www.gnu.org/software/coreutils/manual/html_node/chroot-invocation.html"
+literal "false"
+
+\end_inset
+
+.
+ Accessed 18 Apr.
+ 2020.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-10"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+How to break out of a chroot() jail.
+\begin_inset Quotes erd
+\end_inset
+
+ Simon's computing stuff.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://web.archive.org/web/20160127150916/http:// www.bpfh.net/simes/computing/chroot-break.html"
+target "https://web.archive.org/web/20160127150916/http://www.bpfh.net/simes/computing/chroot-break.html"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-11"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+cgroups(7).
+\begin_inset Quotes erd
+\end_inset
+
+ The Linux man-pages project, 11 Apr.
+ 2020, 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://man7.org/linux/man-pages/man7/cgroups.7.html"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-12"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+seccomp(2).
+\begin_inset Quotes erd
+\end_inset
+
+ The Linux man-pages project, 19 Nov.
+ 2019, 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://man7.org/linux/man-pages/man2/seccomp.2.html"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-13"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+Denying syscalls with seccomp.
+\begin_inset Quotes erd
+\end_inset
+
+ Eigenstate.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://eigenstate.org/notes/seccomp"
+literal "false"
+
+\end_inset
+
+.
+ Accessed 19 Apr.
+ 2020.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-21"
+literal "false"
+
+\end_inset
+
+https://casecurity.org/wp-content/uploads/2013/10/CASC-Code-Signing.pdf 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-22"
+literal "false"
+
+\end_inset
+
+https://www.digicert.com/ssl/ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-23"
+literal "false"
+
+\end_inset
+
+https://www.sslshopper.com/what-is-code-signing.html 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-24"
+literal "false"
+
+\end_inset
+
+https://www.ssl.com/how-to/manually-generate-a-certificate-signing-request-csr-usi
+ng-openssl/ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-25"
+literal "false"
+
+\end_inset
+
+https://mkaz.blog/code/code-signing-a-windows-application/ https://linux.die.net/ma
+n/1/openssl 
+\end_layout
+
+\end_body
+\end_document
