@@ -125,7 +125,7 @@ the first party.
 
 Using a proper operating system such as most Linux-distributions: 
 \begin{enumerate}
-\item \lstinline[basicstyle={\ttfamily}]!openssl req -new -key domain.com.key -out /path/to/www_server_com.csr!
+\item \lstinline[basicstyle={\ttfamily},breaklines=true]!openssl req -new -key domain.com.key -out /path/to/www_server_com.csr!
 will generate the requires certificate signing request (CSR) file
 needed to send to a proper CA. \lstinline[basicstyle={\ttfamily}]!domain.com!
 needs to be altered to where the user\textquoteright s website address
@@ -428,7 +428,7 @@ the potentially more damaging system calls.
 
 \section{Conclusion}
 
-With code signing, Protection from outsiders is important for the
+With code signing, protection from outsiders is important for the
 stability of the digital world. While code signing does not 100\%
 guarantee protection, it is a good step to dismantle unwanted tampering
 of websites or products as well as understanding the product the end-user
