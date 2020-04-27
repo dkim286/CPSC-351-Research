@@ -1,0 +1,485 @@
+%% LyX 2.3.4.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[twocolumn,english]{extarticle}
+\usepackage{helvet}
+\usepackage{courier}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=0.65in,rmargin=0.65in}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[unicode=true]
+ {hyperref}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage[anythingbreaks]{breakurl}
+
+\makeatother
+
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listing}
+
+\begin{document}
+\title{Code Signing and Sandboxing \\
+in Operating Systems}
+\author{Chris Nutter\\
+Austin Kim}
+\maketitle
+\begin{abstract}
+Code signing allows consumers to better trust developers by allowing
+developers to ensure their product is protected from unwanted tampering
+by a third-party. Through methods including TLS encryption and Xcode
+implementation, code signing protects end-users from unwanted criminal
+and malicious intent from outside parties.
+
+Sandboxing is one of many critical components of operating systems
+protection. It allows for the partitioning of system resources and
+the practice of executing processes with the least amount of privilege
+required to accomplish tasks. This strict partitioning ensures that
+even if a process is malicious, its ability to do damage on the system
+at large is limited. Sandboxing is a part of the larger defense-in-depth
+philosophy of operating system protection concept. 
+\end{abstract}
+
+\section{Code Signing}
+
+\subsection{Code Signing Review }
+
+Security and protection are very important to consumers as it allows
+people to feel safer when using their computer. Consumers can ensure
+their applications are safe typically when developers undergo the
+process of code signing. Code signing allows developers to digitally
+sign their applications as to ensure that the code written is valid
+and not harmful. This process is very important as it is the base
+form of protection against unwanted tampering of code. Certification
+authorities (also known as CAs) sign each person\textquoteright s
+program with a public key linked with their identity to create their
+certificate. The process of obtaining a certificate is not complex
+but is very integral for the developer\textquoteright s software to
+be determined as safe for the public. The certification authorities
+help combat against malicious developers which are becoming more of
+a threat.
+
+\subsection{Research Methodology}
+
+This section will go over what code signing is, what the various ways
+in which code signing may be conducted are, and analysis of different
+platforms' implementation of code signing. 
+
+\subsubsection{What is code signing?}
+
+\paragraph{Authentication and Integrity }
+
+The two keywords to proper code signing, Authentication allows the
+consumer to verify the author of the application and Integrity which
+allows the verification that the application\textquoteright s code
+has not been modified since signed. Authentication not only lets the
+user know where the application is from and who developed it, but
+rather the knowledge that the application is reputable enough to not
+question the validity. Integrity ensures all participants are willing
+to understand that their application is proper, and any malicious
+code is directed to the signed applicants.
+
+\paragraph{Code Signing Process for Application }
+
+Receiving a certificate for an application is straightforward but
+requires payment and information from the user. Services including
+DigiCert allow for the certificate to be signed towards the application.
+Signing an application ensures the end-user the program in question
+is safe to use. 
+
+\paragraph{SSL Encryption }
+
+SSL (Secure Sockets Layer) encryption allows companies to receive
+authorization that their website is safe for the public and contain
+no malicious content. Creating an authorized environment involves
+a similar process as one obtains a certificate from CAs. SSL allows
+the encryption of important data from the end-user to not be tampered
+with during the delivery.
+
+\paragraph{TLS Encryption }
+
+TLS (Transport Layer Security) encryption is the overall security
+protocol used by websites to protect against unwanted tampering of
+website data. TLS is now widely used as the proper encryption for
+website and requires a valid certificate from CAs. TLS evolved from
+SSL which improved on security and is less vulnerable. 
+
+\subsubsection{Data gathering: code signing process}
+
+\paragraph{Code Signing Process for Domain }
+
+The retrieval process for a certificate is miniscule however the underlying
+steps are 100\% unique to each party and require unique info from
+the first party.
+
+\paragraph{Generating Certificate Signing Request (CSR) }
+
+Using a proper operating system such as most Linux-distributions: 
+\begin{enumerate}
+\item \lstinline[basicstyle={\ttfamily}]!openssl req -new -key domain.com.key -out /path/to/www_server_com.csr!
+will generate the requires certificate signing request (CSR) file
+needed to send to a proper CA. \lstinline[basicstyle={\ttfamily}]!domain.com!
+needs to be altered to where the user\textquoteright s website address
+is located. 
+\item Following will prompt several instructions to input: 
+\begin{itemize}
+\item Common Name: \lstinline[basicstyle={\ttfamily}]!domain.com! 
+\item Organization Name: \lstinline[basicstyle={\ttfamily}]!Example Inc.! 
+\item Organization Unit: \lstinline[basicstyle={\ttfamily}]!Marketing! 
+\item City/locality: \lstinline[basicstyle={\ttfamily}]!Silicon Valley! 
+\item State/province: \lstinline[basicstyle={\ttfamily}]!California! 
+\item Country/Region: \lstinline[basicstyle={\ttfamily}]!US! 
+\end{itemize}
+\item When instructed, do not input challenge password. Each instruction
+should be modified to the developer\textquoteright s discretion.
+\end{enumerate}
+
+\subsubsection{Data analysis: code signing implications}
+
+\paragraph{Obtaining certificate with CSR }
+
+The CSR generated allows the user to obtain a certificate from a trusted
+CA. There are many examples of CAs across the internet including but
+not limited to, DigiCert, Let\textquoteright s Encrypt, Google Trusted
+Services, etc. Options including Let\textquoteright s Encrypt are
+nonprofit solutions that do not require payment and are trusted the
+same as other CAs. Understanding where the certificate is being retrieved
+from is important. 
+
+\paragraph{Usage of certificate }
+
+The certificate obtained from the authorized CA allows the securing
+of a website and securing of applications written from the developer. 
+
+\paragraph{Apple\textquoteright s Implementation }
+
+The modern multi-billion-dollar corporation Apple has implemented
+a form of code signing for use on Apple hardware. Code signing is
+required to submit and upload their application to the App Store which
+requires their Apple Developer ID. This process is important in securing
+the App Store from unwanted malicious applications but also disallows
+independent developers from publishing their application without requiring
+monetary compensation.
+
+
+\section{Sandboxing}
+
+\subsection{Sandboxing review}
+
+\emph{Sandboxing} is the practice of placing immutable restrictions
+on a process's access to resources \cite{key-1}, such as system calls,
+privileges, storage space, and many others. This creates a set of
+rigid access rules that cannot be disobeyed and creates a secure environment
+upon which processes may be executed.
+
+To accomplish sandboxing, the access matrix\footnote{An abstract model composed of domains and system objects and what
+kind of access each domain has on each object.} is partitioned into ``horizontal'' slices (by domain) and then
+conferred to the appropriate processes \cite{key-3}, often as early
+as before the process's \lstinline[basicstyle={\ttfamily}]!main()!
+function. This ensures that the restrictions placed upon it cannot
+be changed at a later time.
+
+It is also within the realm of possibility to sandbox processes and
+limit their access to system calls to a small set. For example, a
+process that only has read privileges but is not allowed to invoke
+the \lstinline[basicstyle={\ttfamily}]!write()! call cannot modify
+any of the disk contents allocated to it, effectively isolating it
+from communicating with other processes.
+
+\subsection{Research methodology}
+
+This section will cover what sandboxing is for and some sandboxing
+examples.
+
+\subsubsection{Question: why sandboxing?}
+
+Sandboxing is an important component in an operating system's protection
+scheme, as it allows for \emph{per-process} control over what they
+can and cannot access. 
+
+Each time a new process is forked from its parent, it inherits the
+same permissions that the parent held \cite{key-2}. The dangers of
+a rogue process inheriting its parent's permissions is as blatant
+as it is debilitating. Sandboxing allows the operating system to take
+charge and section off process's access based on their needs such
+that even if a malicious piece of code is executed, the damage done
+to the system is either minimal or nonexistent. 
+
+\subsubsection{Data: Sandboxing examples}
+
+At the operating systems level, sandboxing has been a feature since
+many decades prior. In the beginning, there was the \emph{namespace}
+feature in \emph{Plan 9 from Bell Labs}. In Unix, there was \lstinline[basicstyle={\ttfamily}]!chroot!
+for isolating processes into a confined environment and still exists
+to this day. In modern day Linux, \lstinline[basicstyle={\ttfamily}]!cgroups!
+became the de-facto tool for limiting resource access for processes.
+Many others, from full-scale virtual machines for sandboxing at the
+OS-level, to containers like \emph{Docker} and \emph{systemd-nspawn},
+sandboxing remains a staple of process compartmentalization and a
+general protection feature.
+
+There are numerous examples of sandboxing -- too many to list them
+all. In this section, we will delve into some prominent sandboxing
+examples in Linux: \lstinline[basicstyle={\ttfamily}]!chroot!, \lstinline[basicstyle={\ttfamily}]!cgroups!,
+and \lstinline[basicstyle={\ttfamily}]!seccomp!.
+
+\paragraph{chroot}
+
+\lstinline[basicstyle={\ttfamily}]!chroot! is a lightweight sandboxing
+solution available to Linux, whose original Unix version was the predecessor
+for the much more capable \lstinline[basicstyle={\ttfamily}]!jail!
+in FreeBSD.
+
+\lstinline[basicstyle={\ttfamily}]!chroot! uses Linux namespaces
+to accomplish sandboxing. Linux namespaces, derived from \emph{Plan
+9 From Bell Labs}'s namespaces \cite{key-2}, are a kernel feature
+where every global resource within the file system follows a unified
+namespace scheme, but those names point to completely different locations
+per process \cite{key-24}. As such, \lstinline[basicstyle={\ttfamily}]!chroot!'s
+sandboxing is largely limited to file access and is unable to compartmentalize
+the process away from things like network sockets.
+
+To see how \lstinline[basicstyle={\ttfamily}]!chroot! acts as a namespace-based
+sandbox, it's worthwhile to take a look at the generalized steps for
+setting up an environment for one \cite{key-25}: 
+\begin{enumerate}
+\item Create a top level directory to act as the root.
+\item Copy over or symlink the essential directories necessary to run a
+bare minimum environment (path to \lstinline[basicstyle={\ttfamily}]!sh!,
+among others). This step is often automated by scripts.
+\item Create symbolic links to any additional system resources that the
+\lstinline[basicstyle={\ttfamily}]!chroot! environment should have
+read/write access to, such as directories or files.
+\item Run \lstinline[basicstyle={\ttfamily}]!chroot DIR CMD! to run a command
+under this new environment.
+\end{enumerate}
+Steps 2 and 3 outline the gist of how \lstinline[basicstyle={\ttfamily}]!chroot!
+works as a sandbox. It's trivial to select which shell the environment
+should run with, which outside files it should be allowed to see,
+and which files it can write to. Any write operations done inside
+the environment is confined to the environment unless a link exists
+to an outside directory that the process can write to. It is, in a
+way, a very lightweight virtual machine with very little overhead.
+
+This is not to say that \lstinline[basicstyle={\ttfamily}]!chroot!
+is perfect at its job. If anything, it's one of the weakest sandboxing
+tools available, albeit an easy one to use. There are many documented
+and proven ways in which any user can escape the \lstinline[basicstyle={\ttfamily}]!chroot!
+environment and gain direct access to all system resources \cite{key-10}. 
+
+\paragraph{cgroups}
+
+Control groups, abbreviated \lstinline[basicstyle={\ttfamily}]!cgroups!,
+are groups of processes that are bundled together into hierarchies
+and their resource usage monitored. Following the ``everything is
+a file'' philosophy of Unix and its derivatives, its interfaces are
+exposed as a set of files in a pseudo-filesystem called \emph{cgroupfs}
+\cite{key-11}. It is the underlying kernel feature upon which big-name
+applications like \emph{Docker} are built. 
+
+\lstinline[basicstyle={\ttfamily}]!cgroups! consists of two main
+pieces:
+\begin{itemize}
+\item \emph{cgroup} bundles -- a collection of processes with limits imposed
+upon them with regards to resource usage.
+\item a \emph{subsystem} (also known as \emph{resource controllers} or \emph{controllers})
+-- a kernel component that modifies the behavior of the processes
+in a cgroup. 
+\end{itemize}
+The controller and the cgroup bundles are organized into a \emph{hierarchy}
+that constantly changes the underlying cgroupfs subdirectories. It's
+under these subdirectories that the access control is defined: whether
+by adding processes to it by writing the pid to \lstinline[basicstyle={\ttfamily}]!cgroups.procs!,
+or defining the process's behavior by assigning it to a specific subdirectory.
+
+There are two different versions of \lstinline[basicstyle={\ttfamily}]!cgroups!:
+\begin{itemize}
+\item Cgroups v1 -- Released in 2008. Commonly mounted under \lstinline[basicstyle={\ttfamily}]!/sys/fs/cgroup!.
+\item Cgroups v2 -- Attempts to unify the \lstinline[basicstyle={\ttfamily}]!cgroups!
+standard and make the interface more consistent. Commonly mounted
+under \lstinline[basicstyle={\ttfamily}]!/sys/fs/cgroup/unified!.
+\end{itemize}
+Both versions of \lstinline[basicstyle={\ttfamily}]!cgroups! may
+be active at the same time, as v2 supports only a portion of controllers
+found in v1. The only caveat is that the appropriate controllers be
+used for different versions of \lstinline[basicstyle={\ttfamily}]!cgroups!.
+For instance, using v1's controllers for v2's subdirectories would
+not be allowed. 
+
+\subparagraph{Creating and deleting cgroups}
+
+Using \lstinline[basicstyle={\ttfamily}]!cgroups! is as easy as simply
+writing to a file. For the sake of example, let's assume that \lstinline[basicstyle={\ttfamily}]!cgroups!
+v1 is being used, and a process needs to be added under the \lstinline[basicstyle={\ttfamily}]!cpu!
+controller subdirectory:
+\begin{enumerate}
+\item Create a directory for the new cgroup: \lstinline[basicstyle={\ttfamily},breaklines=true]!/sys/fs/cgroup/cpu/mygroup!.
+This creates an empty cgroup named 'mygroup.'
+\item Write the pid of the process to the \lstinline[basicstyle={\ttfamily}]!cgroups.procs!
+file: \lstinline[basicstyle={\ttfamily},breaklines=true]!/sys/fs/cgroup/cpu/mygroup/cgroups.procs!.
+\item The process of writing pid to \lstinline[basicstyle={\ttfamily}]!cgroups.procs!
+automatically removes that process from all other cgroup subdirectories,
+and assigns all threads belonging to that process to the cgroup immediately.
+\end{enumerate}
+Removing a cgroup is equally simple: Make sure that no active processes
+belong under the cgroup, and simply remove the directory \cite{key-11}.
+
+\subparagraph{Controller restrictions}
+
+So, how exactly does \lstinline[basicstyle={\ttfamily}]!cgroups!
+compartmentalize system resource usage? 
+
+There are several predefined controller groups that are allowed certain
+resources and priorities based on the directory structure. In the
+above example, one of them (\lstinline[basicstyle={\ttfamily}]!cpu!)
+was used to showcase how processes are assigned to individual controllers.
+Any processes belonging to a controller group must abide by the rules
+set for that controller group, and any descendant groups may not override
+them \cite{key-11}. 
+
+Listed below are some examples of v1 controllers:
+\begin{enumerate}
+\item \lstinline[basicstyle={\ttfamily}]!cpu! -- This controller group
+is guaranteed to be assigned at least some CPU cycles even when the
+system is busy.
+\item \lstinline[basicstyle={\ttfamily}]!devices! -- This controller group
+allows its processes to read and write to devices, such as disks.
+\item \lstinline[basicstyle={\ttfamily}]!freezer! -- All processes and
+their children in this controller group are allowed to be frozen at-will
+depending on the need of the system.
+\item \lstinline[basicstyle={\ttfamily}]!pids! -- Any processes belonging
+to this controller group are limited in how many child processes they
+may spawn.
+\end{enumerate}
+
+\paragraph{seccomp}
+
+\emph{Secure Computing state}, or \lstinline[basicstyle={\ttfamily}]!seccomp!,
+is a kernel mode for processes that either limits said process to
+a small subset of system calls, or limits them based on \emph{Berkeley
+Packet Filters} (BPFs) passed to it \cite{key-12}. It is enabled
+by the kernel config flag \lstinline[basicstyle={\ttfamily}]!CONFIG_SECCOMP=y!
+at compile time.
+
+\subparagraph{\lstinline[basicstyle={\ttfamily}]!seccomp! and Berkeley Packet
+Filters}
+
+BPF is a packet filtering system that exists within the kernel, and
+is accessed with \lstinline[basicstyle={\ttfamily}]!<linux/filter.h>!.
+It has its own assembly-like syntax and explanations thereof are outside
+the scope of this paper: An entirely new paper would need to be written
+to delve into that subject. 
+
+The main takeaway of BPF with regards to \lstinline[basicstyle={\ttfamily}]!seccomp!
+is that:
+\begin{enumerate}
+\item BPF filter can be defined and enclosed inside a structure within the
+source code
+\item The filter is often written statically (hand-write what system calls
+the process would need)
+\item Any system calls outside the filter would result in the process being
+terminated.
+\end{enumerate}
+
+\subparagraph{\lstinline[basicstyle={\ttfamily}]!seccomp! modes and their usage}
+
+\lstinline[basicstyle={\ttfamily}]!seccomp! has two main modes:
+\begin{enumerate}
+\item \lstinline[basicstyle={\ttfamily}]!SECCOMP_SET_MODE_STRICT! -- The
+calling thread only has access to a subset of system calls consisting
+of \lstinline[basicstyle={\ttfamily}]!read()!, \lstinline[basicstyle={\ttfamily}]!write()!,
+\lstinline[basicstyle={\ttfamily}]!exit()!, and \lstinline[basicstyle={\ttfamily}]!sigreturn()!
+only.
+\item \lstinline[basicstyle={\ttfamily}]!SECCOMP_SET_MODE_FILTER! -- The
+allowed list of system calls are passed by a pointer to a BPF filter. 
+\end{enumerate}
+All the \lstinline[basicstyle={\ttfamily}]!seccomp! related interfaces
+are exposed as \lstinline[basicstyle={\ttfamily}]!<linux/seccomp.h>!,
+and \lstinline[basicstyle={\ttfamily}]!prctl()! under \lstinline[basicstyle={\ttfamily}]!<sys/prctl.h>!.
+Any process may ``elevate'' itself to one of these more secure modes
+by invoking the \lstinline[basicstyle={\ttfamily}]!prctl()! function
+during execution \cite{key-13}:
+\begin{itemize}
+\item \lstinline[basicstyle={\ttfamily},breaklines=true]!prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);!
+for strict mode
+\item \lstinline[basicstyle={\ttfamily},breaklines=true]!prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, filter);!
+for filter mode 
+\end{itemize}
+Followed by ``shutting the door'' by disabling any future \lstinline[basicstyle={\ttfamily}]!prctl()!
+calls:
+\begin{itemize}
+\item \lstinline[basicstyle={\ttfamily}]!prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);!
+\end{itemize}
+Enforcement of \lstinline[basicstyle={\ttfamily}]!seccomp! on the
+kernel end is simple: Any invocations of system calls outside the
+process's allowed list results in the process being killed outright.
+This way, no matter how malicious the program is, its ability to do
+damage is severely limited by the fact that it simply cannot issue
+the potentially more damaging system calls. 
+
+\section{Conclusion}
+
+With code signing, Protection from outsiders is important for the
+stability of the digital world. While code signing does not 100\%
+guarantee protection, it is a good step to dismantle unwanted tampering
+of websites or products as well as understanding the product the end-user
+decides to endure.
+
+More than ever, the need to protect computer systems from malicious
+code is ever present. With the help of sandboxing, the ability to
+fragment physical machines into logical partitions that cannot easily
+broach the divide is indispensable in a world driven by sensitive
+data stored in centralized servers. To this end, sandboxing serves
+a critical purpose. 
+\begin{thebibliography}{10}
+\bibitem{key-1}Silberschatz, Abraham, et al. \emph{Operating System
+Concepts}. 10th ed. Laurie Rosatone, 2018.
+
+\bibitem{key-3}Tanerbaum, Andrew S., and Albert S. Woodhull. \emph{Operating
+Systems Design and Implementation}. 3rd ed., Prentice Hall, 2006.
+
+\bibitem{key-2}Ballesteros, Francisco J. \emph{Introduction to Operating
+Systems Abstractions Using Plan 9 from Bell Labs}. Draft 9/28/2007.
+
+\bibitem{key-8}``namespaces(7).'' The Linux man-pages project,
+11 Apr. 2020, \href{http://man7.org/linux/man-pages/man7/namespaces.7.html}{http://man7.org/linux/man-pages/man7/namespaces.7.html}.
+
+\bibitem{key-9}``chroot: Run a command with a different root directory.''
+GNU Operating System. \href{https://www.gnu.org/software/coreutils/manual/html_node/chroot-invocation.html}{https://www.gnu.org/software/coreutils/manual/ html\_node/chroot-invocation.html}.
+Accessed 18 Apr. 2020.
+
+\bibitem{key-10}``How to break out of a chroot() jail.'' Simon's
+computing stuff. \href{https://web.archive.org/web/20160127150916/http://www.bpfh.net/simes/computing/chroot-break.html}{https://web.archive.org/web/20160127150916/http:// www.bpfh.net/simes/computing/chroot-break.html}.
+
+\bibitem{key-11}``cgroups(7).'' The Linux man-pages project, 11
+Apr. 2020, \href{http://man7.org/linux/man-pages/man7/cgroups.7.html}{http://man7.org/linux/man-pages/man7/cgroups.7.html}.
+
+\bibitem{key-12}``seccomp(2).'' The Linux man-pages project, 19
+Nov. 2019, \href{http://man7.org/linux/man-pages/man2/seccomp.2.html}{http://man7.org/linux/man-pages/man2/seccomp.2.html}.
+
+\bibitem{key-13}``Denying syscalls with seccomp.'' Eigenstate.
+\href{https://eigenstate.org/notes/seccomp}{https://eigenstate.org/notes/seccomp}.
+Accessed 19 Apr. 2020.
+
+\bibitem{key-21}https://casecurity.org/wp-content/uploads/2013/10/CASC-Code-Signing.pdf 
+
+\bibitem{key-22}https://www.digicert.com/ssl/ 
+
+\bibitem{key-23}https://www.sslshopper.com/what-is-code-signing.html 
+
+\bibitem{key-24}https://www.ssl.com/how-to/manually-generate-a-certificate-signing-request-csr-using-openssl/ 
+
+\bibitem{key-25}https://mkaz.blog/code/code-signing-a-windows-application/
+https://linux.die.net/man/1/openssl 
+\end{thebibliography}
+
+\end{document}
